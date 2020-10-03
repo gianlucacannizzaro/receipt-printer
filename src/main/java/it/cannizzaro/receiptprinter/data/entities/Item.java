@@ -26,6 +26,12 @@ public class Item
                 this.imported = imported;
         }
 
+        public Item(String name, Category category, Boolean imported, BigDecimal basePrice)
+        {
+                this(name, category, imported);
+                this.basePrice = basePrice;
+        }
+
         public UUID getItemId()
         {
                 return itemId;
