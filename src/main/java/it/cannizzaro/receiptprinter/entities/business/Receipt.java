@@ -1,4 +1,4 @@
-package it.cannizzaro.receiptprinter.data.entities;
+package it.cannizzaro.receiptprinter.entities.business;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

@@ -1,4 +1,6 @@
-package it.cannizzaro.receiptprinter.data.entities;
+package it.cannizzaro.receiptprinter.entities.business;
+
+import it.cannizzaro.receiptprinter.entities.domain.Category;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -9,6 +11,7 @@ public class Item
         private final UUID itemId;
         private String name;
         private Category category;
+        private Integer quantity;
         private Boolean imported;
         private BigDecimal basePrice;
         private BigDecimal taxedPrice;
@@ -23,6 +26,7 @@ public class Item
                 this();
                 this.name = name;
                 this.category = category;
+                this.quantity = 1;
                 this.imported = imported;
         }
 
@@ -75,6 +79,16 @@ public class Item
         public void setTaxedPrice(BigDecimal taxedPrice)
         {
                 this.taxedPrice = taxedPrice;
+        }
+
+        public Integer getQuantity()
+        {
+                return quantity;
+        }
+
+        public void setQuantity(Integer quantity)
+        {
+                this.quantity = quantity;
         }
 
         public Boolean getImported()

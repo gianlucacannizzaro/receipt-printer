@@ -1,7 +1,7 @@
 package it.cannizzaro.receiptprinter.service.spring;
 
-import it.cannizzaro.receiptprinter.data.entities.Item;
-import it.cannizzaro.receiptprinter.data.entities.Receipt;
+import it.cannizzaro.receiptprinter.entities.business.Item;
+import it.cannizzaro.receiptprinter.entities.business.Receipt;
 import it.cannizzaro.receiptprinter.service.ReceiptService;
 import it.cannizzaro.receiptprinter.service.TaxService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,8 @@ public class DemoReceiptService implements ReceiptService
                 {
                         BigDecimal taxAmount = taxService.computeTaxes(item);
                         item.setTaxedPrice(item.getBasePrice().add(taxAmount));
-                        totalSalesTaxes = totalSalesTaxes.add(taxAmount);
-                        totalCost = totalCost.add(item.getTaxedPrice());
+                        totalSalesTaxes = totalSalesTaxes.add(taxAmount.multiply(BigDecimal.valueOf(item.getQuantity())));
+                        totalCost = totalCost.add(item.getTaxedPrice().multiply(BigDecimal.valueOf(item.getQuantity())));
                 }
 
                 receipt.setTotalSalesTaxes(totalSalesTaxes);
