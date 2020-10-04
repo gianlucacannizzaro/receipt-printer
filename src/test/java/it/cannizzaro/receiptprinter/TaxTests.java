@@ -4,7 +4,7 @@ import it.cannizzaro.receiptprinter.data.entities.Category;
 import it.cannizzaro.receiptprinter.data.entities.Item;
 import it.cannizzaro.receiptprinter.data.entities.Receipt;
 import it.cannizzaro.receiptprinter.data.entities.Tax;
-import it.cannizzaro.receiptprinter.service.TaxService;
+import it.cannizzaro.receiptprinter.service.ReceiptService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -43,7 +43,7 @@ class TaxTests
         private Item importedOtherProduct;
 
         @Autowired
-        private TaxService taxService;
+        private ReceiptService receiptService;
 
         @BeforeAll
         void contextLoads()
@@ -113,7 +113,7 @@ class TaxTests
                 receipt.add(cd);
                 receipt.add(chocolate);
 
-                taxService.computeTaxes(receipt);
+                receiptService.process(receipt);
 
                 assertEquals(new BigDecimal("12.49"), book.getTaxedPrice());
                 assertEquals(new BigDecimal("16.49"), cd.getTaxedPrice());
@@ -133,7 +133,7 @@ class TaxTests
                 receipt.add(chocolate);
                 receipt.add(perfume);
 
-                taxService.computeTaxes(receipt);
+                receiptService.process(receipt);
 
                 assertEquals(new BigDecimal("10.50"), chocolate.getTaxedPrice());
                 assertEquals(new BigDecimal("54.65"), perfume.getTaxedPrice());
@@ -156,7 +156,7 @@ class TaxTests
                 receipt.add(pills);
                 receipt.add(importedChocolate);
 
-                taxService.computeTaxes(receipt);
+                receiptService.process(receipt);
 
                 assertEquals(new BigDecimal("32.19"), importedPerfume.getTaxedPrice());
                 assertEquals(new BigDecimal("20.89"), perfume.getTaxedPrice());

@@ -1,9 +1,12 @@
 package it.cannizzaro.receiptprinter.service;
 
+import it.cannizzaro.receiptprinter.data.entities.Item;
 import it.cannizzaro.receiptprinter.data.entities.Receipt;
+
+import java.math.BigDecimal;
 
 
 public interface TaxService
 {
-        void computeTaxes(Receipt receipt);
+        BigDecimal computeTaxes(Item item);
 }
