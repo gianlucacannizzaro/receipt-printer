@@ -5,6 +5,7 @@ import it.cannizzaro.receiptprinter.data.entities.Item;
 import it.cannizzaro.receiptprinter.data.entities.Receipt;
 import it.cannizzaro.receiptprinter.data.entities.Tax;
 import it.cannizzaro.receiptprinter.service.ReceiptService;
+import it.cannizzaro.receiptprinter.service.TaxService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -45,6 +46,9 @@ class TaxTests
         @Autowired
         private ReceiptService receiptService;
 
+        @Autowired
+        private TaxService taxService;
+
         @BeforeAll
         void contextLoads()
         {
@@ -76,6 +80,10 @@ class TaxTests
                 String importDutyMvel = "item.imported == true";
                 importDutyTax = new Tax("import duty tax", new BigDecimal("0.05"), importDutyMvel, new HashMap<>());
 
+                List<Tax> taxes = new ArrayList<>();
+                taxes.add(basicSaleTax);
+                taxes.add(importDutyTax);
+                taxService.setTaxes(taxes);
         }
 
         @Test
@@ -101,9 +109,8 @@ class TaxTests
         }
 
         @Test
-        void test_receipt_1()
+        void test_process_receipt_1()
         {
-
                 Item book = new Item("book", bookCategory, false, new BigDecimal("12.49"));
                 Item cd = new Item("cd", otherCategory, false, new BigDecimal("14.99"));
                 Item chocolate = new Item("chocolate", foodCategory, false, new BigDecimal("0.85"));
@@ -124,7 +131,7 @@ class TaxTests
         }
 
         @Test
-        void test_receipt_2()
+        void test_process_receipt_2()
         {
                 Item chocolate = new Item("chocolate", foodCategory, true, new BigDecimal("10.00"));
                 Item perfume = new Item("perfume", otherCategory, true, new BigDecimal("47.50"));
@@ -142,9 +149,8 @@ class TaxTests
         }
 
         @Test
-        void test_receipt_3()
+        void test_process_receipt_3()
         {
-
                 Item importedPerfume = new Item("importedPerfume", otherCategory, true, new BigDecimal("27.99"));
                 Item perfume = new Item("perfume", otherCategory, false, new BigDecimal("18.99"));
                 Item pills = new Item("pills", medicalCategory, false, new BigDecimal("9.75"));
@@ -164,7 +170,6 @@ class TaxTests
                 assertEquals(new BigDecimal("11.85"), importedChocolate.getTaxedPrice());
                 assertEquals(new BigDecimal("6.70"), receipt.getTotalSalesTaxes());
                 assertEquals(new BigDecimal("74.68"), receipt.getTotalCost());
-
         }
 
 }

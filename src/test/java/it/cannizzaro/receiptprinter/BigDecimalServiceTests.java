@@ -20,38 +20,43 @@ class BigDecimalServiceTests
         private BigDecimalService bigDecimalService;
 
         private BigDecimal one;
-        private BigDecimal onePointFive;
+        private BigDecimal onePointZeroFive;
+        private BigDecimal onePointOne;
         private BigDecimal minusOne;
         private BigDecimal minusOnePointFive;
+        private BigDecimal minusOnePointOne;
 
         @BeforeAll
         void setUp()
         {
                 one = BigDecimal.ONE.setScale(2);
-                onePointFive = new BigDecimal("1.05").setScale(2);
+                onePointZeroFive = new BigDecimal("1.05").setScale(2);
+                onePointOne = new BigDecimal("1.1").setScale(2);
                 minusOne = one.negate();
-                minusOnePointFive = onePointFive.negate();
+                minusOnePointFive = onePointZeroFive.negate();
+                minusOnePointOne = onePointOne.negate();
+
         }
 
         @Test
         void test_round_big_decimal()
         {
-                assertEquals(one, bigDecimalService.roundToNearestFive(one));
-                assertEquals(one, bigDecimalService.roundToNearestFive(new BigDecimal("1.01")));
-                assertEquals(one, bigDecimalService.roundToNearestFive(new BigDecimal("1.02")));
-                assertEquals(one, bigDecimalService.roundToNearestFive(new BigDecimal("1.024")));
-                assertEquals(onePointFive, bigDecimalService.roundToNearestFive(new BigDecimal("1.025")));
-                assertEquals(onePointFive, bigDecimalService.roundToNearestFive(new BigDecimal("1.026")));
-                assertEquals(onePointFive, bigDecimalService.roundToNearestFive(new BigDecimal("1.049")));
+                assertEquals(one, bigDecimalService.roundUpToNearestFive(one));
+                assertEquals(onePointZeroFive, bigDecimalService.roundUpToNearestFive(new BigDecimal("1.01")));
+                assertEquals(onePointZeroFive, bigDecimalService.roundUpToNearestFive(new BigDecimal("1.02")));
+                assertEquals(onePointZeroFive, bigDecimalService.roundUpToNearestFive(new BigDecimal("1.024")));
+                assertEquals(onePointOne, bigDecimalService.roundUpToNearestFive(new BigDecimal("1.06")));
+                assertEquals(onePointOne, bigDecimalService.roundUpToNearestFive(new BigDecimal("1.062")));
+                assertEquals(onePointOne, bigDecimalService.roundUpToNearestFive(new BigDecimal("1.069")));
 
-                assertEquals(minusOne, bigDecimalService.roundToNearestFive(minusOne));
-                assertEquals(minusOne, bigDecimalService.roundToNearestFive(new BigDecimal("-1.01")));
-                assertEquals(minusOne, bigDecimalService.roundToNearestFive(new BigDecimal("-1.02")));
-                assertEquals(minusOne, bigDecimalService.roundToNearestFive(new BigDecimal("-1.024")));
-                assertEquals(minusOne, bigDecimalService.roundToNearestFive(new BigDecimal("-1.0245")));
-                assertEquals(minusOnePointFive, bigDecimalService.roundToNearestFive(new BigDecimal("-1.025")));
-                assertEquals(minusOnePointFive, bigDecimalService.roundToNearestFive(new BigDecimal("-1.026")));
-                assertEquals(minusOnePointFive, bigDecimalService.roundToNearestFive(new BigDecimal("-1.049")));
+                assertEquals(minusOne, bigDecimalService.roundUpToNearestFive(minusOne));
+                assertEquals(minusOne, bigDecimalService.roundUpToNearestFive(new BigDecimal("-1.02")));
+                assertEquals(minusOne, bigDecimalService.roundUpToNearestFive(new BigDecimal("-1.024")));
+                assertEquals(minusOne, bigDecimalService.roundUpToNearestFive(new BigDecimal("-1.0245")));
+                assertEquals(minusOne, bigDecimalService.roundUpToNearestFive(new BigDecimal("-1.025")));
+                assertEquals(minusOne, bigDecimalService.roundUpToNearestFive(new BigDecimal("-1.026")));
+                assertEquals(minusOnePointFive, bigDecimalService.roundUpToNearestFive(new BigDecimal("-1.051")));
+                assertEquals(minusOnePointOne, bigDecimalService.roundUpToNearestFive(new BigDecimal("-1.101")));
 
         }
 

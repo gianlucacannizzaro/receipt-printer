@@ -16,14 +16,13 @@ public class DemoBigDecimalService implements BigDecimalService
         @PostConstruct
         private void init()
         {
-                this.helper = new BigDecimal("2");
+                this.helper = new BigDecimal("20");
         }
 
         @Override
-        public BigDecimal roundToNearestFive(BigDecimal toRound)
+        public BigDecimal roundUpToNearestFive(BigDecimal toRound)
         {
-                toRound = toRound.multiply(helper);
-                toRound = toRound.setScale(1, RoundingMode.HALF_UP);
+                toRound = toRound.multiply(helper).setScale(0, RoundingMode.CEILING);
                 toRound = toRound.divide(helper, 2, RoundingMode.HALF_UP);
                 return toRound;
         }
