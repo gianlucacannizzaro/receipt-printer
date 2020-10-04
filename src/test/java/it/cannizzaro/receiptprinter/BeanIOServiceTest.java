@@ -1,9 +1,9 @@
-/*
 package it.cannizzaro.receiptprinter;
 
-import it.cannizzaro.receiptprinter.data.entities.business.Item;
-import it.cannizzaro.receiptprinter.data.entities.business.Receipt;
-import it.cannizzaro.receiptprinter.data.entities.domain.Category;
+import it.cannizzaro.receiptprinter.entities.business.Item;
+import it.cannizzaro.receiptprinter.entities.business.Receipt;
+import it.cannizzaro.receiptprinter.entities.domain.Category;
+import it.cannizzaro.receiptprinter.service.CategoryService;
 import it.cannizzaro.receiptprinter.service.ParsingService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -31,19 +31,23 @@ class BeanIOServiceTest
         @Autowired
         private ParsingService parsingService;
 
+        @Autowired
+        private CategoryService categoryService;
+
         @BeforeAll
         void contextLoads()
         {
-                bookCategory = new Category("books");
-                foodCategory = new Category("food");
-                medicalCategory = new Category("medical");
-                otherCategory = new Category("other");
+                bookCategory = categoryService.findByName("Book");
+                foodCategory = categoryService.findByName("Food");
+                medicalCategory = categoryService.findByName("Medical");
+                otherCategory = categoryService.findByName("Other");
         }
 
         @Test
         void test_parse_receipt_1() throws IOException
         {
-                File file = new File("/static/receipt_1.txt");
+                ClassLoader classLoader = getClass().getClassLoader();
+                File file = new File(classLoader.getResource("static/receipt_1.txt").getFile());
 
                 Receipt parsedReceipt = parsingService.parseReceipt(file);
 
@@ -72,7 +76,8 @@ class BeanIOServiceTest
         @Test
         void test_parse_receipt_2() throws IOException
         {
-                File file = new File("/static/receipt_2.txt");
+                ClassLoader classLoader = getClass().getClassLoader();
+                File file = new File(classLoader.getResource("static/receipt_2.txt").getFile());
                 Receipt parsedReceipt = parsingService.parseReceipt(file);
 
                 Item chocolate = parsedReceipt.getItems().stream().filter(i -> "box of chocolates".equals(i.getName())).findFirst().get();
@@ -88,14 +93,16 @@ class BeanIOServiceTest
                 assertTrue(perfume.getImported());
 
                 assertEquals(new BigDecimal("10.00"), chocolate.getBasePrice());
-                assertEquals(new BigDecimal("47,50.99"), perfume.getBasePrice());
+                assertEquals(new BigDecimal("47.50"), perfume.getBasePrice());
 
         }
 
         @Test
         void test_process_receipt_3() throws IOException
         {
-                File file = new File("/static/receipt_3.txt");
+                ClassLoader classLoader = getClass().getClassLoader();
+                File file = new File(classLoader.getResource("static/receipt_3.txt").getFile());
+
                 Receipt parsedReceipt = parsingService.parseReceipt(file);
 
                 Item importedPerfume = parsedReceipt.getItems().stream()
@@ -115,6 +122,11 @@ class BeanIOServiceTest
                 assertFalse(perfume.getImported());
                 assertFalse(pills.getImported());
 
+                assertEquals(otherCategory, importedPerfume.getCategory());
+                assertEquals(otherCategory, perfume.getCategory());
+                assertEquals(medicalCategory, pills.getCategory());
+                assertEquals(foodCategory, importedChocolate.getCategory());
+
                 assertEquals(new BigDecimal("27.99"), importedPerfume.getBasePrice());
                 assertEquals(new BigDecimal("18.99"), perfume.getBasePrice());
                 assertEquals(new BigDecimal("9.75"), pills.getBasePrice());
@@ -123,4 +135,3 @@ class BeanIOServiceTest
         }
 
 }
-*/

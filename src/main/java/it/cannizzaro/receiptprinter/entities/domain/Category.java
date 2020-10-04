@@ -1,6 +1,7 @@
 package it.cannizzaro.receiptprinter.entities.domain;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -13,6 +14,8 @@ public class Category
         private Long categoryId;
         @Column(name = "NAME", nullable = false)
         private String name;
+        @ElementCollection(fetch = FetchType.EAGER)
+        private List<String> keywords;
 
         public Category()
         {
@@ -38,6 +41,16 @@ public class Category
                 this.name = name;
         }
 
+        public List<String> getKeywords()
+        {
+                return keywords;
+        }
+
+        public void setKeywords(List<String> keywords)
+        {
+                this.keywords = keywords;
+        }
+
         @Override
         public boolean equals(Object o)
         {
@@ -54,4 +67,5 @@ public class Category
         {
                 return Objects.hash(categoryId, name);
         }
+
 }
