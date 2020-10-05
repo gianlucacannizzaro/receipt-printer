@@ -4,9 +4,9 @@ import it.cannizzaro.receiptprinter.entities.business.Item;
 import it.cannizzaro.receiptprinter.entities.business.Receipt;
 import it.cannizzaro.receiptprinter.entities.domain.Category;
 import it.cannizzaro.receiptprinter.entities.domain.Tax;
-import it.cannizzaro.receiptprinter.service.CategoryService;
-import it.cannizzaro.receiptprinter.service.ReceiptService;
-import it.cannizzaro.receiptprinter.service.TaxService;
+import it.cannizzaro.receiptprinter.service.business.ReceiptService;
+import it.cannizzaro.receiptprinter.service.domain.CategoryService;
+import it.cannizzaro.receiptprinter.service.domain.TaxService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class TaxTests
+class TaxServiceTests
 {
         private Tax basicSalesTax;
         private Tax importDutyTax;
@@ -94,68 +94,5 @@ class TaxTests
                 assertTrue(importDutyTax.isApplicableTo(importedOtherProduct));
         }
 
-        @Test
-        void test_process_receipt_1()
-        {
-                Item book = new Item("book", bookCategory, false, new BigDecimal("12.49"));
-                Item cd = new Item("cd", otherCategory, false, new BigDecimal("14.99"));
-                Item chocolate = new Item("chocolate", foodCategory, false, new BigDecimal("0.85"));
-
-                Receipt receipt = new Receipt();
-                receipt.add(book);
-                receipt.add(cd);
-                receipt.add(chocolate);
-
-                receiptService.process(receipt);
-
-                assertEquals(new BigDecimal("12.49"), book.getTaxedPrice());
-                assertEquals(new BigDecimal("16.49"), cd.getTaxedPrice());
-                assertEquals(new BigDecimal("0.85"), chocolate.getTaxedPrice());
-                assertEquals(new BigDecimal("1.50"), receipt.getTotalSalesTaxes());
-                assertEquals(new BigDecimal("29.83"), receipt.getTotalCost());
-
-        }
-
-        @Test
-        void test_process_receipt_2()
-        {
-                Item chocolate = new Item("chocolate", foodCategory, true, new BigDecimal("10.00"));
-                Item perfume = new Item("perfume", otherCategory, true, new BigDecimal("47.50"));
-
-                Receipt receipt = new Receipt();
-                receipt.add(chocolate);
-                receipt.add(perfume);
-
-                receiptService.process(receipt);
-
-                assertEquals(new BigDecimal("10.50"), chocolate.getTaxedPrice());
-                assertEquals(new BigDecimal("54.65"), perfume.getTaxedPrice());
-                assertEquals(new BigDecimal("7.65"), receipt.getTotalSalesTaxes());
-                assertEquals(new BigDecimal("65.15"), receipt.getTotalCost());
-        }
-
-        @Test
-        void test_process_receipt_3()
-        {
-                Item importedPerfume = new Item("importedPerfume", otherCategory, true, new BigDecimal("27.99"));
-                Item perfume = new Item("perfume", otherCategory, false, new BigDecimal("18.99"));
-                Item pills = new Item("pills", medicalCategory, false, new BigDecimal("9.75"));
-                Item importedChocolate = new Item("importedChocolate", foodCategory, true, new BigDecimal("11.25"));
-
-                Receipt receipt = new Receipt();
-                receipt.add(importedPerfume);
-                receipt.add(perfume);
-                receipt.add(pills);
-                receipt.add(importedChocolate);
-
-                receiptService.process(receipt);
-
-                assertEquals(new BigDecimal("32.19"), importedPerfume.getTaxedPrice());
-                assertEquals(new BigDecimal("20.89"), perfume.getTaxedPrice());
-                assertEquals(new BigDecimal("9.75"), pills.getTaxedPrice());
-                assertEquals(new BigDecimal("11.85"), importedChocolate.getTaxedPrice());
-                assertEquals(new BigDecimal("6.70"), receipt.getTotalSalesTaxes());
-                assertEquals(new BigDecimal("74.68"), receipt.getTotalCost());
-        }
 
 }

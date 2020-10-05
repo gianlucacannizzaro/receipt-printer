@@ -1,27 +1,38 @@
 package it.cannizzaro.receiptprinter.entities.business;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 
+@Entity
+@Table(name = "RECEIPTS")
 public class Receipt
 {
-        private final UUID receiptId;
-        private final List<Item> items;
+        @OneToMany(cascade = CascadeType.ALL)
+        private final List<Item> items = new ArrayList<>();
+        @Id
+        @GeneratedValue
+        private Long receiptId;
+        @Column(name = "TOTAL_COST", nullable = false)
         private BigDecimal totalCost;
+        @Column(name = "TOTAL_SALES_TAXES", nullable = false)
         private BigDecimal totalSalesTaxes;
 
         public Receipt()
         {
-                this.receiptId = UUID.randomUUID();
-                this.items = new ArrayList<>();
+
         }
 
-        public List<Item> getItems()
+        public Long getReceiptId()
         {
-                return items;
+                return receiptId;
+        }
+
+        public void setReceiptId(Long receiptId)
+        {
+                this.receiptId = receiptId;
         }
 
         public void add(Item item)
@@ -39,9 +50,9 @@ public class Receipt
                 this.items.contains(item);
         }
 
-        public UUID getReceiptId()
+        public List<Item> getItems()
         {
-                return receiptId;
+                return items;
         }
 
         public BigDecimal getTotalCost()

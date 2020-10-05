@@ -2,23 +2,33 @@ package it.cannizzaro.receiptprinter.entities.business;
 
 import it.cannizzaro.receiptprinter.entities.domain.Category;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.UUID;
 
 
+@Entity
+@Table(name = "ITEMS")
 public class Item
 {
-        private final UUID itemId;
+        @Id
+        @GeneratedValue
+        private Long itemId;
+        @Column(name = "NAME", nullable = false)
         private String name;
+        @OneToOne
         private Category category;
+        @Column(name = "QUANTITY", nullable = false)
         private Integer quantity;
+        @Column(name = "IMPORTED", nullable = false)
         private Boolean imported;
+        @Column(name = "BASE_PRICE", nullable = false)
         private BigDecimal basePrice;
+        @Column(name = "TAXED_PRICE", nullable = false)
         private BigDecimal taxedPrice;
 
         public Item()
         {
-                this.itemId = UUID.randomUUID();
+
         }
 
         public Item(String name, Category category, Boolean imported)
@@ -36,9 +46,14 @@ public class Item
                 this.basePrice = basePrice;
         }
 
-        public UUID getItemId()
+        public Long getItemId()
         {
                 return itemId;
+        }
+
+        public void setItemId(Long itemId)
+        {
+                this.itemId = itemId;
         }
 
         public String getName()
@@ -61,26 +76,6 @@ public class Item
                 this.category = category;
         }
 
-        public BigDecimal getBasePrice()
-        {
-                return basePrice;
-        }
-
-        public void setBasePrice(BigDecimal basePrice)
-        {
-                this.basePrice = basePrice;
-        }
-
-        public BigDecimal getTaxedPrice()
-        {
-                return taxedPrice;
-        }
-
-        public void setTaxedPrice(BigDecimal taxedPrice)
-        {
-                this.taxedPrice = taxedPrice;
-        }
-
         public Integer getQuantity()
         {
                 return quantity;
@@ -99,5 +94,25 @@ public class Item
         public void setImported(Boolean imported)
         {
                 this.imported = imported;
+        }
+
+        public BigDecimal getBasePrice()
+        {
+                return basePrice;
+        }
+
+        public void setBasePrice(BigDecimal basePrice)
+        {
+                this.basePrice = basePrice;
+        }
+
+        public BigDecimal getTaxedPrice()
+        {
+                return taxedPrice;
+        }
+
+        public void setTaxedPrice(BigDecimal taxedPrice)
+        {
+                this.taxedPrice = taxedPrice;
         }
 }

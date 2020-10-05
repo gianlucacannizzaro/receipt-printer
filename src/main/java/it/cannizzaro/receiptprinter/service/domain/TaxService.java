@@ -1,4 +1,4 @@
-package it.cannizzaro.receiptprinter.service;
+package it.cannizzaro.receiptprinter.service.domain;
 
 import it.cannizzaro.receiptprinter.entities.business.Item;
 import it.cannizzaro.receiptprinter.entities.domain.Tax;

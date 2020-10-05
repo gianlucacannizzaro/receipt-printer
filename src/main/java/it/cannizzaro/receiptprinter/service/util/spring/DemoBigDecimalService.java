@@ -1,6 +1,6 @@
-package it.cannizzaro.receiptprinter.service.spring;
+package it.cannizzaro.receiptprinter.service.util.spring;
 
-import it.cannizzaro.receiptprinter.service.BigDecimalService;
+import it.cannizzaro.receiptprinter.service.util.BigDecimalService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;

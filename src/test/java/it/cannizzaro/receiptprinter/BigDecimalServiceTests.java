@@ -1,6 +1,6 @@
 package it.cannizzaro.receiptprinter;
 
-import it.cannizzaro.receiptprinter.service.BigDecimalService;
+import it.cannizzaro.receiptprinter.service.util.BigDecimalService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

@@ -1,4 +1,4 @@
-package it.cannizzaro.receiptprinter.repository;
+package it.cannizzaro.receiptprinter.repository.domain;
 
 import it.cannizzaro.receiptprinter.entities.domain.Category;
 import org.springframework.data.jpa.repository.JpaRepository;

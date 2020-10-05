@@ -1,4 +1,4 @@
-package it.cannizzaro.receiptprinter.service;
+package it.cannizzaro.receiptprinter.service.util;
 
 import java.math.BigDecimal;
 

@@ -1,10 +1,10 @@
-package it.cannizzaro.receiptprinter.service.spring;
+package it.cannizzaro.receiptprinter.service.domain.spring;
 
 import it.cannizzaro.receiptprinter.entities.business.Item;
 import it.cannizzaro.receiptprinter.entities.domain.Tax;
-import it.cannizzaro.receiptprinter.repository.TaxRepository;
-import it.cannizzaro.receiptprinter.service.BigDecimalService;
-import it.cannizzaro.receiptprinter.service.TaxService;
+import it.cannizzaro.receiptprinter.repository.domain.TaxRepository;
+import it.cannizzaro.receiptprinter.service.util.BigDecimalService;
+import it.cannizzaro.receiptprinter.service.domain.TaxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
